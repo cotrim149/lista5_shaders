@@ -17,7 +17,7 @@ int main(){
 	malha = &malha2;
 
 	calculaDeltas(malha);
-	Resize_Mesh(malha,3);
+	Resize_Mesh(malha,1.2);
 	centralizaMesh(malha);
 	while(1){
 	
