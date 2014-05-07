@@ -31,14 +31,15 @@ struct Vector3f
 
 static void RenderSceneCB(mesh *malha)
 {
+
     glClear(GL_COLOR_BUFFER_BIT);
 
-    gScale = 0.60f;
+    gScale = 0.40f;
     glUniform1f(gScaleLocation, gScale);
     int i;
     glEnableVertexAttribArray(0);
 
-	    for(i=0;i< malha->nvertex;i+=3){
+	    for(i=0;i< malha->nface;i+=3){
 		    glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	    	glVertexAttribPointer(i, i+3, GL_FLOAT, GL_FALSE, 0, NULL);
 
@@ -52,23 +53,23 @@ static void RenderSceneCB(mesh *malha)
 
 static void CreateVertexBuffer(mesh *malha)
 {
-    Vector3f Vertices[malha->nvertex];
+	printf("iniciou criacao de vertex \n");
    	Vector3f Faces[malha->nface];
    	
    	int i;
    	
-   	for(i=0;i< malha->nvertex;i++){
-	    Vertices[i] = Vector3f(malha->list_vertex[i].x, malha->list_vertex[i].y, malha->list_vertex[i].z);
+   	for(i=0;i< malha->nface;i+=3){
+	  	face Face = malha->list_faces[i];
+	    Faces[i] = Vector3f(Face.verticeX.x, Face.verticeX.y, Face.verticeX.z);
+	    Faces[i+1] = Vector3f(Face.verticeY.x, Face.verticeY.y, Face.verticeY.z);
+	    Faces[i+2] = Vector3f(Face.verticeZ.x, Face.verticeZ.y, Face.verticeZ.z);
    	}
-/*   	for(i=0;i< mesh->qtdFaces;i++){
-		Faces[i] = Vector3f(malha->list_faces[i].verticeX.x,malha->list_faces[i].verticeX.y,malha->list_faces[i].verticeX.z);
-   	
-   	}
-*/
 
  	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Faces), Faces, GL_STATIC_DRAW);
+	
+	printf("Terminou criacao de vertex \n");
 }
 
 //----------------------------------------------------------------------------
@@ -84,7 +85,7 @@ int main(){
 	
 	initializeScreen(SCREEN_WIDTH,SCREEN_HEIGHT);
 	initializeOpenGl(SCREEN_WIDTH,SCREEN_HEIGHT);
-    glViewport( 0, 0, 800, 600 );
+   
 	glewInit();
 	if (glewIsSupported("GL_VERSION_3_3"))
 		printf("Ready for OpenGL 3.3\n");
