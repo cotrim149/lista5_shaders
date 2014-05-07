@@ -68,7 +68,7 @@ int Render_Mesh(mesh *pmesh,int geometric){
 	}	
 		
 	Open_Viewport(TRIANGLES);
-	
+	// implementar shaders por aqui!!
 	for(i=0;i<pmesh->list_faces.size();i++){
 		face Face = pmesh->list_faces[i];
 		color corPonto1 = pmesh->list_color[Face.ponto1];
