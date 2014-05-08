@@ -2,7 +2,6 @@
 #include "arquivo.cpp"
 #include "CG.h"
 #include <SDL/SDL.h>
-//#include "sdl.cpp"
 
 mesh *New_Mesh(){
 	mesh *malha = (mesh *)malloc(sizeof(mesh));
@@ -186,5 +185,71 @@ void centralizaMesh(mesh *malha){
 	}
 	
 	repassaPontosListFaces(malha);
+}
+
+void calculaNormal(mesh *malha){
+	face Face = malha->list_faces[0];
+	
+	ponto3D ponto1 = Face.verticeX; 
+	ponto3D ponto2 = Face.verticeY;
+	ponto3D ponto3 = Face.verticeZ;
+	
+	printf("ponto1 X: %f\n",ponto1.x);
+	printf("ponto1 Y: %f\n",ponto1.y);
+	printf("ponto1 Z: %f\n\n",ponto1.z);
+
+	printf("ponto2 X: %f\n",ponto2.x);
+	printf("ponto2 Y: %f\n",ponto2.y);
+	printf("ponto2 Z: %f\n\n",ponto2.z);
+
+	printf("ponto3 X: %f\n",ponto3.x);
+	printf("ponto3 Y: %f\n",ponto3.y);
+	printf("ponto3 Z: %f\n\n",ponto3.z);
+
+
+	// vetores u e v	
+	ponto3D u; 
+	u.x = ponto1.x - ponto2.x;
+	u.y = ponto1.y - ponto2.y;
+	u.z = ponto1.z - ponto2.z;
+
+	printf("vetor u X: %f\n",u.x);
+	printf("vetor u Y: %f\n",u.y);
+	printf("vetor u Z: %f\n\n",u.z);
+	
+
+	ponto3D v;
+	v.x = ponto1.x- ponto3.x;
+	v.y = ponto1.y- ponto3.y;
+	v.z = ponto1.z- ponto3.z;
+
+	printf("vetor v X: %f\n",v.x);
+	printf("vetor v Y: %f\n",v.y);
+	printf("vetor v Z: %f\n\n",v.z);
+	
+	// produto Vetorial u x v
+	ponto3D normal;
+	normal.x = (u.y * v.z) - (u.z * v.y);
+    normal.y = (u.z * v.x) - (u.x * v.z);
+    normal.z = (u.x * v.y) - (u.y * v.x);
+	
+	printf("u x v X: %f\n",normal.x);
+	printf("u x v Y: %f\n",normal.y);
+	printf("u x v Z: %f\n\n",normal.z);
+
+	// Normalizacao
+	float norma = sqrt(pow(normal.x,2) + pow(normal.y,2) +pow(normal.z,2));
+	printf("Norma: %f\n\n",norma);
+	
+	normal.x = normal.x/norma;
+	normal.y = normal.y/norma;
+	normal.z = normal.z/norma;
+
+	printf("Normal X: %f\n",normal.x);
+	printf("Normal Y: %f\n",normal.y);
+	printf("Normal Z: %f\n\n",normal.z);
+	
+	
+	
 }
 

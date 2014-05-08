@@ -112,11 +112,12 @@ int main(){
 	centralizaMesh(malha);
 	
 	CreateVertexBuffer(malha);
+	calculaNormal(malha);
 	
 	while(1){
 	
 		processEvents();
-		RenderSceneCB(malha);
+			RenderSceneCB(malha);
 		SDL_Delay(1);
 	}
 

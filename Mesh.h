@@ -6,6 +6,7 @@
 #define MESH_H_
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <vector>
 #include "vec.h"
 
@@ -14,6 +15,7 @@ using namespace std;
 typedef struct _face{
     int ponto1,ponto2,ponto3;
     ponto3D verticeX,verticeY,verticeZ;
+    ponto3D normal;
 }face;
 
 typedef struct _color{
@@ -41,5 +43,5 @@ int Resize_Mesh(mesh *pmesh, float ampliacao);
 void repassaPontosListFaces(mesh *pmesh);
 void calculaDeltas(mesh *malha);
 void centralizaMesh(mesh *malha);
-
+void calculaNormal(mesh *malha);
 #endif
