@@ -33,65 +33,103 @@ mesh Load_Mesh(mesh *pMesh, char *File_Name){
 
 int Render_Mesh(mesh *pmesh,int geometric){
 
-	
 	if(pmesh == NULL){
 		printf("malha nula!\n");
 	}
 
-	color cor = pmesh->list_color[0]; 
-
-	int red=cor.R;
-	int green=cor.G;
-	int blue=cor.B;
-	int alpha=cor.alpha;
-
-	Open_Viewport(LINES);
 			
 	int i;
 	
-		
-	for(i=0;i<pmesh->list_faces.size();i++){
-		face Face = pmesh->list_faces[i];
-		color corPonto1 = pmesh->list_color[Face.ponto1];
-		color corPonto2 = pmesh->list_color[Face.ponto2];
-		color corPonto3 = pmesh->list_color[Face.ponto3];
-		glBegin(GL_TRIANGLES);
-			glColor4f(corPonto1.R,corPonto1.G,corPonto1.B,corPonto1.alpha);
-			glVertex3f(Face.verticeX.x,Face.verticeX.y,Face.verticeX.z);
+	if(pmesh->list_color.size() == 0){
+
+		Open_Viewport(TRIANGLES);
+
+		for(i=0;i<pmesh->list_faces.size();i++){
+			face Face = pmesh->list_faces[i];
+			glBegin(GL_TRIANGLES);
+				glColor4f(1,1,1,0);
+				glVertex3f(Face.verticeX.x,Face.verticeX.y,Face.verticeX.z);
 			
-			glColor4f(corPonto2.R,corPonto2.G,corPonto2.B,corPonto2.alpha);
-			glVertex3f(Face.verticeY.x,Face.verticeY.y,Face.verticeY.z);
+				glColor4f(1,1,1,0);
+				glVertex3f(Face.verticeX.x,Face.verticeX.y,Face.verticeX.z);
 			
-			glColor4f(corPonto3.R,corPonto3.G,corPonto3.B,corPonto3.alpha);		
-			glVertex3f(Face.verticeZ.x,Face.verticeZ.y,Face.verticeZ.z);
-		glEnd();
-	}	
+				glColor4f(1,1,1,0);
+				glVertex3f(Face.verticeX.x,Face.verticeX.y,Face.verticeX.z);
+			glEnd();
+		}	
 		
-	Open_Viewport(TRIANGLES);
-	// implementar shaders por aqui!!
-	for(i=0;i<pmesh->list_faces.size();i++){
-		face Face = pmesh->list_faces[i];
-		color corPonto1 = pmesh->list_color[Face.ponto1];
-		color corPonto2 = pmesh->list_color[Face.ponto2];
-		color corPonto3 = pmesh->list_color[Face.ponto3];
+		Open_Viewport(LINES);
 
-		glBegin(GL_LINES);
-			glColor4f(corPonto1.R,corPonto1.G,corPonto1.B,corPonto1.alpha);
-			glVertex3f(Face.verticeX.x,Face.verticeX.y,Face.verticeX.z);			
-			glColor4f(corPonto2.R,corPonto2.G,corPonto2.B,corPonto2.alpha);
-			glVertex3f(Face.verticeY.x,Face.verticeY.y,Face.verticeY.z);
+		for(i=0;i<pmesh->list_faces.size();i++){
+			face Face = pmesh->list_faces[i];
+			glBegin(GL_LINES);
+				glColor4f(1,1,1,0.5);
+				glVertex3f(Face.verticeX.x,Face.verticeX.y,Face.verticeX.z);			
+				glColor4f(1,1,1,0.5);
+				glVertex3f(Face.verticeY.x,Face.verticeY.y,Face.verticeY.z);
 
-			glColor4f(corPonto2.R,corPonto2.G,corPonto2.B,corPonto2.alpha);
-			glVertex3f(Face.verticeY.x,Face.verticeY.y,Face.verticeY.z);
-			glColor4f(corPonto3.R,corPonto3.G,corPonto3.B,corPonto3.alpha);		
-			glVertex3f(Face.verticeZ.x,Face.verticeZ.y,Face.verticeZ.z);			
+				glColor4f(1,1,1,0.5);
+				glVertex3f(Face.verticeY.x,Face.verticeY.y,Face.verticeY.z);
+				glColor4f(1,1,1,0.5);
+				glVertex3f(Face.verticeZ.x,Face.verticeZ.y,Face.verticeZ.z);			
 
-			glColor4f(corPonto1.R,corPonto1.G,corPonto1.B,corPonto1.alpha);
-			glVertex3f(Face.verticeX.x,Face.verticeX.y,Face.verticeX.z);
-			glColor4f(corPonto3.R,corPonto3.G,corPonto3.B,corPonto3.alpha);		
-			glVertex3f(Face.verticeZ.x,Face.verticeZ.y,Face.verticeZ.z);			
+				glColor4f(1,1,1,0.5);
+				glVertex3f(Face.verticeX.x,Face.verticeX.y,Face.verticeX.z);
+				glColor4f(1,1,1,0.5);
+				glVertex3f(Face.verticeZ.x,Face.verticeZ.y,Face.verticeZ.z);			
 
-		glEnd();
+			glEnd();
+		
+		}
+	} else {
+		
+		Open_Viewport(TRIANGLES);
+
+		for(i=0;i<pmesh->list_faces.size();i++){
+			face Face = pmesh->list_faces[i];
+			color corPonto1 = pmesh->list_color[Face.ponto1];
+			color corPonto2 = pmesh->list_color[Face.ponto2];
+			color corPonto3 = pmesh->list_color[Face.ponto3];
+			glBegin(GL_TRIANGLES);
+				glColor4f(corPonto1.R,corPonto1.G,corPonto1.B,corPonto1.alpha);
+				glVertex3f(Face.verticeX.x,Face.verticeX.y,Face.verticeX.z);
+
+				glColor4f(corPonto2.R,corPonto2.G,corPonto2.B,corPonto2.alpha);
+				glVertex3f(Face.verticeY.x,Face.verticeY.y,Face.verticeY.z);
+			
+				glColor4f(corPonto3.R,corPonto3.G,corPonto3.B,corPonto3.alpha);		
+				glVertex3f(Face.verticeZ.x,Face.verticeZ.y,Face.verticeZ.z);
+			glEnd();
+		}	
+		
+		Open_Viewport(LINES);
+	
+		for(i=0;i<pmesh->list_faces.size();i++){
+			face Face = pmesh->list_faces[i];
+			color corPonto1 = pmesh->list_color[Face.ponto1];
+			color corPonto2 = pmesh->list_color[Face.ponto2];
+			color corPonto3 = pmesh->list_color[Face.ponto3];
+
+			glBegin(GL_LINES);
+				glColor4f(corPonto1.R,corPonto1.G,corPonto1.B,corPonto1.alpha);
+				glVertex3f(Face.verticeX.x,Face.verticeX.y,Face.verticeX.z);			
+				glColor4f(corPonto2.R,corPonto2.G,corPonto2.B,corPonto2.alpha);
+				glVertex3f(Face.verticeY.x,Face.verticeY.y,Face.verticeY.z);
+
+				glColor4f(corPonto2.R,corPonto2.G,corPonto2.B,corPonto2.alpha);
+				glVertex3f(Face.verticeY.x,Face.verticeY.y,Face.verticeY.z);
+				glColor4f(corPonto3.R,corPonto3.G,corPonto3.B,corPonto3.alpha);		
+				glVertex3f(Face.verticeZ.x,Face.verticeZ.y,Face.verticeZ.z);			
+
+				glColor4f(corPonto1.R,corPonto1.G,corPonto1.B,corPonto1.alpha);
+				glVertex3f(Face.verticeX.x,Face.verticeX.y,Face.verticeX.z);
+				glColor4f(corPonto3.R,corPonto3.G,corPonto3.B,corPonto3.alpha);		
+				glVertex3f(Face.verticeZ.x,Face.verticeZ.y,Face.verticeZ.z);			
+
+			glEnd();
+		
+		}	
+		
 		
 	}	
 	
@@ -106,9 +144,11 @@ int Resize_Mesh(mesh *pmesh, float ampliacao){
 	int i;
 
 	for(i=0;i < pmesh->list_vertex.size();i++){
+	
 		pmesh->list_vertex[i].x = (pmesh->list_vertex[i].x/pmesh->deltaX) * ampliacao; 
 		pmesh->list_vertex[i].y = (pmesh->list_vertex[i].y/pmesh->deltaY) * ampliacao; 
 		pmesh->list_vertex[i].z = (pmesh->list_vertex[i].z/pmesh->deltaZ) * ampliacao;	
+				
 	}
 	
 	repassaPontosListFaces(pmesh);
@@ -133,10 +173,11 @@ void calculaDeltas(mesh *malha){
 }
 
 void centralizaMesh(mesh *malha){
-	float xCentral = malha->XMin + (-1*malha->deltaX);
-	float yCentral = malha->YMin + (7*malha->deltaY);
+	float xCentral = malha->XMin + (malha->deltaX);
+	float yCentral = malha->YMin + (malha->deltaY);
 	float zCentral = malha->ZMin + (malha->deltaZ);
 	
+
 	int i;
 	for(i=0;i<malha->list_vertex.size();i++){
 		malha->list_vertex[i].x -= xCentral; 

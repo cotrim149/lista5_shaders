@@ -36,9 +36,6 @@ mesh lerArquivo(char *nomeArquivo){
 	
 	if(strcmp(cabecalho,"OFF") == 0 ){
 
-
-		printf("cabecalho: %s",cabecalho);
-
 		mesh malha;
 		malha.nvertex = qtdPontos;
 		malha.nface = qtdFaces;
@@ -55,7 +52,6 @@ mesh lerArquivo(char *nomeArquivo){
 		for(i=0;i<qtdPontos;i++){
 	
 			ponto3D pontos;
-			//color cores;
 			fscanf(arq,"%f %f %f\n",&x,&y,&z);
 	
 			malha.XMax=verificaMaior(malha.XMax,x);
@@ -67,20 +63,14 @@ mesh lerArquivo(char *nomeArquivo){
 			malha.ZMax=verificaMaior(malha.ZMax,z);
 			malha.ZMin=verificaMenor(malha.ZMin,z);		
 	
-/*			cores.R = 1;
-			cores.G = 1;
-			cores.B = 0;
-			cores.alpha = 0.5;
-*/	
 			pontos.x=x;
 			pontos.y=y;
 			pontos.z=z;
 	
-			//malha.list_color.push_back(cores);
 			malha.list_vertex.push_back(pontos);
 		}	
 
-		printf("\n scan dos pontos feita com sucesso!\n");
+		printf("\n Escaneamento dos pontos feita com sucesso!\n");
 		int tri;
 		for(i=0;i<qtdFaces;i++){
 			face Face;
@@ -93,7 +83,7 @@ mesh lerArquivo(char *nomeArquivo){
 	
 			malha.list_faces.push_back(Face);
 		}
-		printf("\n scan das faces feita com sucesso!\n");
+		printf("\n Escaneamento das faces feita com sucesso!\n");
 	
 		fclose(arq);
 	
@@ -101,7 +91,9 @@ mesh lerArquivo(char *nomeArquivo){
 
 		
 	}else{
-
+	
+		printf("cacalho: %s\n",cabecalho);
+	
 		mesh malha;
 		malha.nvertex = qtdPontos;
 		malha.nface = qtdFaces;

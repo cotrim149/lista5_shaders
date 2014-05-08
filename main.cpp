@@ -34,12 +34,14 @@ static void RenderSceneCB(mesh *malha)
 
     glClear(GL_COLOR_BUFFER_BIT);
 
-    gScale = 0.40f;
+    gScale = 0.50f;
     glUniform1f(gScaleLocation, gScale);
+ 
     int i;
     glEnableVertexAttribArray(0);
 
 	    for(i=0;i< malha->nface;i+=3){
+
 		    glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	    	glVertexAttribPointer(i, i+3, GL_FLOAT, GL_FALSE, 0, NULL);
 
@@ -77,7 +79,7 @@ void Display_InitGL()
 {
     GLuint program = InitShader( "vshader21.glsl", "fshader21.glsl" );
     glUseProgram( program );					   
-    glClearColor( 0.0, 0, 0, 0.0 ); // white background
+    glClearColor( 0.0, 0, 0, 0.0 ); // black background
     gScaleLocation = glGetUniformLocation(program,"gScale");// map
  }
 
@@ -87,7 +89,7 @@ int main(){
 	initializeOpenGl(SCREEN_WIDTH,SCREEN_HEIGHT);
    
 	glewInit();
-	if (glewIsSupported("GL_VERSION_3_3"))
+	if (glewIsSupported("GL_VERSION_3_0"))
 		printf("Ready for OpenGL 3.3\n");
 	else {
 		printf("OpenGL 3.3 not supported\n");
@@ -98,7 +100,6 @@ int main(){
 	Display_InitGL();
 
 
-
 	mesh *malha = NULL;
 	malha = New_Mesh();
 	
@@ -107,18 +108,16 @@ int main(){
 	malha = &malha2;
 
 	calculaDeltas(malha);
-	Resize_Mesh(malha,1.8);
+	Resize_Mesh(malha,1.6);
 	centralizaMesh(malha);
 	
 	CreateVertexBuffer(malha);
-	// Malha pra dentro CreateVertexBuffer()
-
+	
 	while(1){
 	
 		processEvents();
-		//Render_Mesh(malha,TRIANGLES);
 		RenderSceneCB(malha);
-		SDL_Delay(500);
+		SDL_Delay(1);
 	}
 
 	Del_Mesh(malha);	
