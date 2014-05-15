@@ -1,7 +1,6 @@
 #version 330
 
 in vec3 vPosition;
-uniform float gScale;
 
 void
 main()
