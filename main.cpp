@@ -5,7 +5,8 @@
 #include "Mesh.h"
 #include "sdl.cpp"
 
-GLuint VBO;
+GLuint idVertices;
+GLuint idCores;
 
 static float gScale = 0.0f;
 int gScaleLocation;
@@ -28,26 +29,46 @@ struct Vector3f
     }
 };
 
+struct Vector4f
+{
+    float r;
+    float g;
+    float b;
+	float alpha;
+	
+    Vector4f()
+    {
+    }
+
+    Vector4f(float _r, float _g, float _b, float _alpha)
+    {
+        r = _r;
+        g = _g;
+        b = _b;
+        alpha = _alpha;
+    }
+};
+
 
 static void RenderSceneCB(mesh *malha)
 {
 
     glClear(GL_COLOR_BUFFER_BIT);
 
-    gScale = 0.50f;
+    gScale = 0.90f;
     glUniform1f(gScaleLocation, gScale);
  
-    int i;
+    int numTriangulos = malha->nface;
     glEnableVertexAttribArray(0);
+ 
 
-	    for(i=0;i< malha->nface;i+=3){
-
-		    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	    	glVertexAttribPointer(i, i+3, GL_FLOAT, GL_FALSE, 0, NULL);
-
-	    	glDrawArrays(GL_TRIANGLES, i, i+3);	    
-	    }
-
+	    glBindBuffer(GL_ARRAY_BUFFER, idVertices);
+    	
+    	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+//	    	glVertexAttribPointer(id do atributteArray(index de quem eu trabalho), tamanho da lista, tipo, normalizado ou não, tamanho estrutura de dados(tamanho do pacote), ponteiro);
+		
+    	glDrawArrays(GL_TRIANGLES, 0,numTriangulos);	    
+		
     glDisableVertexAttribArray(0);
 	
     SDL_GL_SwapBuffers();
@@ -57,7 +78,6 @@ static void CreateVertexBuffer(mesh *malha)
 {
 	printf("iniciou criacao de vertex \n");
    	Vector3f Faces[malha->nface];
-   	
    	int i;
    	
    	for(i=0;i< malha->nface;i+=3){
@@ -67,9 +87,13 @@ static void CreateVertexBuffer(mesh *malha)
 	    Faces[i+2] = Vector3f(Face.verticeZ.x, Face.verticeZ.y, Face.verticeZ.z);
    	}
 
- 	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Faces), Faces, GL_STATIC_DRAW);
+	
+
+ 	glGenBuffers(1, &idVertices);
+	glBindBuffer(GL_ARRAY_BUFFER, idVertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vector3f)*malha->nface, Faces, GL_STATIC_DRAW);
+
+
 	
 	printf("Terminou criacao de vertex \n");
 }
@@ -110,15 +134,18 @@ int main(){
 	calculaDeltas(malha);
 	Resize_Mesh(malha,1.6);
 	centralizaMesh(malha);
-	
-	CreateVertexBuffer(malha);
 	calculaNormal(malha);
+	CreateVertexBuffer(malha);
+
+	
+	
 	
 	while(1){
 	
 		processEvents();
-			RenderSceneCB(malha);
-		SDL_Delay(1);
+		RenderSceneCB(malha);
+
+		SDL_Delay(1000);
 	}
 
 	Del_Mesh(malha);	
