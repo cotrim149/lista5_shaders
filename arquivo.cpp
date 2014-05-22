@@ -92,7 +92,7 @@ mesh lerArquivo(char *nomeArquivo){
 		
 	}else{
 	
-		printf("cacalho: %s\n",cabecalho);
+		printf("cabecalho: %s\n",cabecalho);
 	
 		mesh malha;
 		malha.nvertex = qtdPontos;
@@ -113,7 +113,7 @@ mesh lerArquivo(char *nomeArquivo){
 		for(i=0;i<qtdPontos;i++){
 	
 			color cores;
-			ponto3D pontos;
+			ponto3D ponto;
 	
 			fscanf(arq,"%f %f %f %d %d %d %d\n",&x,&y,&z,&red,&green,&blue,&alpha);
 	
@@ -131,12 +131,12 @@ mesh lerArquivo(char *nomeArquivo){
 			cores.B = blue;
 			cores.alpha = alpha;
 	
-			pontos.x=x;
-			pontos.y=y;
-			pontos.z=z;
+			ponto.x=x;
+			ponto.y=y;
+			ponto.z=z;
 	
 			malha.list_color.push_back(cores);
-			malha.list_vertex.push_back(pontos);
+			malha.list_vertex.push_back(ponto);
 		}	
 
 		printf("\n scan dos pontos feita com sucesso!\n");
