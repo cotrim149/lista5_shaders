@@ -8,9 +8,6 @@
 GLuint idVertices;
 GLuint idCores;
 
-static float gScale = 0.0f;
-int gScaleLocation;
-
 struct Vector3f
 {
     float x;
@@ -54,11 +51,9 @@ static void RenderSceneCB(mesh *malha)
 {
 
     glClear(GL_COLOR_BUFFER_BIT);
-
-    gScale = 0.90f;
-    glUniform1f(gScaleLocation, gScale);
  
     int numTriangulos = malha->nface;
+    
     glEnableVertexAttribArray(0);
  
 
@@ -104,7 +99,7 @@ void Display_InitGL()
     GLuint program = InitShader( "vshader21.glsl", "fshader21.glsl" );
     glUseProgram( program );					   
     glClearColor( 0.0, 0, 0, 0.0 ); // black background
-    gScaleLocation = glGetUniformLocation(program,"gScale");// map
+    //gScaleLocation = glGetUniformLocation(program,"gScale");// map
  }
 
 int main(){
@@ -113,7 +108,7 @@ int main(){
 	initializeOpenGl(SCREEN_WIDTH,SCREEN_HEIGHT);
    
 	glewInit();
-	if (glewIsSupported("GL_VERSION_3_0"))
+	if (glewIsSupported("GL_VERSION_3_3"))
 		printf("Ready for OpenGL 3.3\n");
 	else {
 		printf("OpenGL 3.3 not supported\n");
@@ -132,13 +127,12 @@ int main(){
 	malha = &malha2;
 
 	calculaDeltas(malha);
-	Resize_Mesh(malha,1.6);
+	Resize_Mesh(malha,0.6);
 	centralizaMesh(malha);
 	calculaNormal(malha);
+	
+	
 	CreateVertexBuffer(malha);
-
-	
-	
 	
 	while(1){
 	
