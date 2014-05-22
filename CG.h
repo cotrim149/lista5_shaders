@@ -16,6 +16,6 @@ enum geometricForm{
 	SQUARE
 };
 
-void initializeOpenGl(int SCREEN_WIDTH, int SCREEN_HEIGHT);
+void initializeOpenGl(int SCREEN_WIDTH, int SCREEN_HEIGHT); 
 void Open_Viewport(int geometric);
 #endif
